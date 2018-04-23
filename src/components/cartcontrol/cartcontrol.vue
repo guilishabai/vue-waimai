@@ -23,10 +23,12 @@ export default {
         return ''
       }
       if (!this.food.count) {
+        // this.food.count = 1
         Vue.set(this.food, 'count', 1)
       } else {
         this.food.count++
       }
+      this.$emit('addCart', e.target)
     },
     decreaseCart(e) {
       if (!e._constructed) {
