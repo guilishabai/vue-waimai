@@ -25,7 +25,7 @@
       </transition-group> 
     </div>
     <transition name="shopcartList">
-      <div class="shopcart-list" v-show="listShow">
+      <div class="shopcart-list" v-show="listShow()">
         <div class="list-header">
           <h1 class="title">购物车</h1>
           <span class="empty" @click="empty">清空</span>
@@ -46,7 +46,7 @@
       </div>
     </transition>
     <transition name="mask">
-      <div class="list-mask" v-show="listShow" @click="hideList"></div>
+      <div class="list-mask" v-show="listShow()" @click="hideList"></div>
     </transition>  
   </div>
 </template>
@@ -121,7 +121,9 @@ export default {
       } else {
         return 'enough'
       }
-    },
+    }
+  },
+  methods: {
     listShow() {
       if (!this.totalCount) {
         this.fold = true
@@ -131,7 +133,8 @@ export default {
       if (show) {
         this.$nextTick(() => {
           if (!this.scroll) {
-            this.scroll = new BetterScroll(this.$refs.listConter, {
+            let el = this.$refs.listConter
+            this.scroll = new BetterScroll(el, {
               click: true
             })
           } else {
@@ -140,9 +143,7 @@ export default {
         })
       }
       return show
-    }
-  },
-  methods: {
+    },
     drop(el) {
       for (let i = 0; i < this.balls.length; i++) {
         let ball = this.balls[i]
@@ -160,6 +161,7 @@ export default {
         let ball = this.balls[count]
         if (ball.show) {
           let rect = ball.el.getBoundingClientRect()
+          // ball.el 为food传过来的dom时 加了transition 避免获取不到
           let x = rect.left - 32
           let y = -(window.innerHeight - rect.top - 22)
           el.style.display = ''
@@ -217,6 +219,7 @@ export default {
     width: 100%
     height: 48px
     background: #000
+    z-index 40
     .content{
       display: flex
       background: #141d27

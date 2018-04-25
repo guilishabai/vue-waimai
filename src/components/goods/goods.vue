@@ -15,7 +15,7 @@
         <li v-for="item in goods" :key="item.id" class="food-list border-1px" ref="foodList">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item" :key="food.id">
+            <li v-for="food in item.foods" class="food-item" :key="food.id" @click="selectFood(food, $event)">
               <div class="icon">
                 <img :src="food.icon" width="57" height="57">
               </div>
@@ -24,14 +24,14 @@
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
                   <span>月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span>好评率{{food.rating || 0}}%</span>
                 </div>
                 <div class="price">
-                  <span>￥{{food.price}}</span>
-                  <span v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <span class="now">￥{{food.price}}</span>
+                  <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <cartcontrol :food='food' @addCart="_drop"></cartcontrol>
+                  <cartcontrol :food='food' @goods="_drop"></cartcontrol>
                 </div>
               </div>
             </li>
@@ -40,17 +40,20 @@
       </ul>
     </div>
     <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :selectFoods = 'selectFoods' ref="shopcart" ></shopcart>
+    <food :food="selectedFood" ref="food" @goods='_drop'></food>
   </div>
 </template>
 <script>
 import BetterScroll from 'better-scroll'
 import shopcart from 'components/shopcart/shopcart.vue'
 import cartcontrol from 'components/cartcontrol/cartcontrol'
+import food from 'components/food/food'
 const ERR_OK = 0
 export default {
   components: {
     shopcart,
-    cartcontrol
+    cartcontrol,
+    food
   },
   props: {
     seller: {
@@ -61,7 +64,8 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      selectedFood: {}
     }
   },
   computed: {
@@ -119,7 +123,7 @@ export default {
       this.listHeight.push(height)
       for (let i = 0; i < foodList.length; i++) {
         let item = foodList[i]
-        height += item.clientHeight
+        height += item.clientHeight - 1
         this.listHeight.push(height)
       }
     },
@@ -136,6 +140,13 @@ export default {
       this.$nextTick(() => {
         this.$refs.shopcart.drop(target)
       })
+    },
+    selectFood(food, e) {
+      if (!e._constructed) {
+        return
+      }
+      this.selectedFood = food
+      this.$refs.food.show()
     }
   }
 }

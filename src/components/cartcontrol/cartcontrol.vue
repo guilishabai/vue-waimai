@@ -1,10 +1,10 @@
 <template>
   <div class="cartcontrol">
     <transition name="fade">
-      <div class="cart-decrease icon-remove_circle_outline" v-show="food.count > 0" @click="decreaseCart"></div>
+      <div class="cart-decrease icon-remove_circle_outline" v-show="food.count > 0" @click.stop="decreaseCart"></div>
     </transition>
     <div class="cart-count" v-show="food.count > 0">{{food.count}}</div>
-    <div class="cart-add icon-add_circle" @click="addCart"></div>
+    <div class="cart-add icon-add_circle" @click.stop="addCart"></div>
   </div>
 </template>
 <script>
@@ -28,7 +28,7 @@ export default {
       } else {
         this.food.count++
       }
-      this.$emit('addCart', e.target)
+      this.$emit('goods', e.target)
     },
     decreaseCart(e) {
       if (!e._constructed) {

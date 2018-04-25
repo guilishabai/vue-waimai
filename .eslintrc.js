@@ -32,6 +32,6 @@ module.exports = {
     "no-multiple-empty-lines": [1, {"max": 8}],
     // 'semi':['error', 'always'],
     'indent': 0,
-    'space-before-function-paren': 0
+    'space-before-function-paren': 0,
   }
 }

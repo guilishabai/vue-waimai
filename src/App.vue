@@ -8,18 +8,17 @@
   	  	</router-link>
   	  </div>
   	  <div class="tab-item">
-  	  	<router-link  to='/seller'>
+  	  	<router-link  to='/ratings'>
   	  		评论
   	  	</router-link>
   	  </div>
   	  <div class="tab-item">
-  	    <router-link  to='/ratings'>
+  	    <router-link  to='/seller'>
   	  		商家
   	  	</router-link>
   	  </div>
     </div>
   	<router-view :seller="seller"></router-view>
-  	<div class="content"></div>
   </div>
 </template>
 
