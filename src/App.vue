@@ -31,11 +31,11 @@ export default {
 		}
 	},
 	created() {
-		this.$http.get('/api/seller').then((res) => {
+		this.$http.get('../../../static/data.json').then((res) => {
 			res = res.body
-			if (res.errno === 0) {
-				this.seller = res.data
-			}
+			// if (res.errno === 0) {
+				this.seller = res.seller
+			// }
 		})
 	},
   components: {

@@ -59,7 +59,7 @@
   import ratingselect from 'components/ratingselect/ratingselect'
   import {formateDate} from 'common/js/date'
   import split from 'components/split/split'
-  const ERR_OK = 0
+  // const ERR_OK = 0
   const ALL = 2
 export default {
   components: {
@@ -80,16 +80,16 @@ export default {
     }
   },
   created() {
-    this.$http.get('/api/ratings').then(res => {
+    this.$http.get('../../../static/data.json').then(res => {
       res = res.body
-      if (res.errno === ERR_OK) {
-        this.ratings = res.data
+      // if (res.errno === ERR_OK) {
+        this.ratings = res.ratings
         this.$nextTick(() => {
           this.scroll = new BetterScroll(this.$refs.ratings, {
             click: true
           })
         })
-      }
+      // }
     })
   },
   methods: {

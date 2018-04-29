@@ -48,7 +48,7 @@ import BetterScroll from 'better-scroll'
 import shopcart from 'components/shopcart/shopcart.vue'
 import cartcontrol from 'components/cartcontrol/cartcontrol'
 import food from 'components/food/food'
-const ERR_OK = 0
+// const ERR_OK = 0
 export default {
   components: {
     shopcart,
@@ -92,15 +92,15 @@ export default {
     }
   },
   created() {
-    this.$http.get('/api/goods').then(res => {
+    this.$http.get('../../../static/data.json').then(res => {
       res = res.body
-      if (res.errno === ERR_OK) {
-        this.goods = res.data
+      // if (res.errno === ERR_OK) {
+        this.goods = res.goods
         this.$nextTick(() => {
           this._initScroll()
           this._calculateHeight()
         })
-      }
+      // }
     })
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
